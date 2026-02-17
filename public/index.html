@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Context Architecture Demo — Business Brain</title>
+  <link rel="stylesheet" href="style.css" />
+
+</head>
+<body>
+
+  <header role="banner">
+    <div class="nav">
+      <div class="logo">CONTEXT<span>ARCH</span></div>
+      <div class="nav-meta">Business Brain — Architecture Demo</div>
+      <button id="resetBtn" class="reset-btn">↺ Reset Session</button>
+    </div>
+  </header>
+
+  <div class="proof-bar">
+    <span>PROVING:</span> Structured context loading prevents session collapse. Naive mode fails by exchange 6. Smart mode survives 30+.
+  </div>
+
+  <main class="panels" role="main">
+
+    <!-- NAIVE PANEL -->
+    <section class="panel panel-naive">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span class="mode-badge naive-badge">NAIVE</span>
+          Dumps everything. Every time.
+        </div>
+        <div class="panel-stats">
+          <div class="stat">
+            <span class="stat-label">TOKENS</span>
+            <span class="stat-value" id="naive-tokens">—</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">EXCHANGES</span>
+            <span class="stat-value" id="naive-exchanges">0</span>
+          </div>
+        </div>
+      </div>
+      <div class="token-bar-wrap">
+        <div class="token-bar-track">
+          <div class="token-bar naive-bar" id="naive-bar"></div>
+        </div>
+        <span class="token-bar-label" id="naive-bar-pct">0% of context used</span>
+      </div>
+      <div class="files-loaded" id="naive-files">No files loaded yet</div>
+      <div class="chat-window" id="naive-chat">
+        <div class="chat-placeholder">Send a message to begin. Watch this panel degrade.</div>
+      </div>
+    </section>
+
+    <!-- INPUT CENTER -->
+    <div class="input-column">
+      <div class="input-label">Send to both modes simultaneously</div>
+      <textarea id="messageInput" placeholder="What products are running low?&#10;Which gym accounts are overdue?&#10;What's our best margin SKU?&#10;Status on the Gymshark DM?&#10;What video goes up next?" rows="5"></textarea>
+      <button id="sendBtn" class="send-btn">SEND →</button>
+      <div class="suggested-label">Suggested sequence — run in order:</div>
+      <div class="suggestions">
+        <button class="suggest-btn">What products are running low on stock?</button>
+        <button class="suggest-btn">Which gym accounts have overdue invoices?</button>
+        <button class="suggest-btn">What's our highest margin SKU?</button>
+        <button class="suggest-btn">Status on the Shenzhen factory order?</button>
+        <button class="suggest-btn">What video goes up this week?</button>
+        <button class="suggest-btn">Which wholesale accounts are up for renewal?</button>
+        <button class="suggest-btn">What did the Gymshark DM say?</button>
+        <button class="suggest-btn">How much are we owed in unpaid invoices?</button>
+        <button class="suggest-btn">What products are running low on stock?</button>
+      </div>
+      <div class="architecture-note">
+        <strong>The architecture:</strong><br/>
+        Smart mode loads Tier 1 (~800 tokens) always.<br/>
+        Domain files load only when the topic comes up.<br/>
+        Naive mode loads everything every time.<br/><br/>
+        <strong>Active brain:</strong> Supplement brand
+      </div>
+    </div>
+
+    <!-- SMART PANEL -->
+    <section class="panel panel-smart">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span class="mode-badge smart-badge">SMART</span>
+          Loads only what's needed.
+        </div>
+        <div class="panel-stats">
+          <div class="stat">
+            <span class="stat-label">TOKENS</span>
+            <span class="stat-value" id="smart-tokens">—</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">EXCHANGES</span>
+            <span class="stat-value" id="smart-exchanges">0</span>
+          </div>
+        </div>
+      </div>
+      <div class="token-bar-wrap">
+        <div class="token-bar-track">
+          <div class="token-bar smart-bar" id="smart-bar"></div>
+        </div>
+        <span class="token-bar-label" id="smart-bar-pct">0% of context used</span>
+      </div>
+      <div class="files-loaded" id="smart-files">No files loaded yet</div>
+      <div class="chat-window" id="smart-chat">
+        <div class="chat-placeholder">Send a message to begin. Watch this panel stay sharp.</div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
