@@ -489,3 +489,80 @@ textarea:focus {
     font-size: var(--text-lg);
   }
 }
+
+@media (max-width: 900px) {
+  .panels {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  /* Make input column first and sticky on mobile */
+  .input-column {
+    order: -1;
+    position: sticky;
+    top: calc(var(--nav-height) + 42px); /* below nav + proof bar */
+    z-index: 50;
+    padding: var(--space-3);
+    margin-bottom: var(--space-4);
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  /* Collapse suggested questions on mobile */
+  .suggestions {
+    display: none;
+  }
+
+  /* Hide architecture note on mobile */
+  .architecture-note {
+    display: none;
+  }
+
+  /* Make textarea smaller */
+  textarea {
+    min-height: 80px;
+  }
+
+  @media (max-width: 900px) {
+    /* ... existing mobile rules ... */
+
+    /* Highlight panel stats on mobile after demo runs */
+    .panel-header {
+      background: var(--surface-2);
+      padding: var(--space-3);
+    }
+
+    .panel-stats {
+      width: 100%;
+      justify-content: space-around;
+    }
+
+    .stat-value {
+      font-size: clamp(1.75rem, 5vw, 2.25rem);
+    }
+
+    /* Make token bars more prominent */
+    .token-bar-track {
+      height: 12px;
+    }
+
+    .token-bar-label {
+      font-size: var(--text-base);
+      font-weight: 600;
+    }
+
+    /* Add summary card at bottom after demo completes */
+    .panels::after {
+      content: "💡 Smart mode used 40% fewer tokens";
+      display: block;
+      order: 999;
+      background: var(--accent-dim);
+      border: 2px solid var(--accent);
+      padding: var(--space-4);
+      text-align: center;
+      font-weight: 700;
+      border-radius: var(--radius);
+      margin-top: var(--space-4);
+    }
+  }
+}

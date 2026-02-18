@@ -169,7 +169,28 @@ autoRunBtn.addEventListener("click", async () => {
     await new Promise((resolve) => setTimeout(resolve, 3000));
   }
 
+  // Add after the demo completes
   progressDiv.textContent = "Demo complete! ✓";
+
+  // Add results summary
+  const summaryDiv = document.createElement("div");
+  summaryDiv.style.cssText =
+    "background: #fef3c7; border: 2px solid #f59e0b; padding: 1rem; border-radius: 8px; margin: 1rem 0; text-align: center; font-weight: 600;";
+  summaryDiv.innerHTML = `
+  <div style="font-size: 0.875rem; color: #92400e; margin-bottom: 0.5rem;">RESULTS AFTER 9 EXCHANGES:</div>
+  <div style="display: flex; justify-content: space-around; gap: 1rem;">
+    <div>
+      <div style="font-size: 0.75rem; color: #92400e;">NAIVE</div>
+      <div style="font-size: 1.5rem; color: #dc2626;">${document.getElementById("naive-tokens").textContent}</div>
+    </div>
+    <div>
+      <div style="font-size: 0.75rem; color: #92400e;">SMART</div>
+      <div style="font-size: 1.5rem; color: #059669;">${document.getElementById("smart-tokens").textContent}</div>
+    </div>
+  </div>
+  <div style="margin-top: 0.5rem; font-size: 0.875rem; color: #92400e;">Smart used ${Math.round((1 - parseInt(document.getElementById("smart-tokens").textContent.replace(",", "")) / parseInt(document.getElementById("naive-tokens").textContent.replace(",", ""))) * 100)}% fewer tokens</div>
+`;
+  autoRunBtn.parentElement.insertBefore(summaryDiv, autoRunBtn.nextSibling);
   setTimeout(() => {
     progressDiv.style.display = "none";
   }, 2000);
