@@ -524,45 +524,80 @@ textarea:focus {
   }
 
   @media (max-width: 900px) {
-    /* ... existing mobile rules ... */
-
-    /* Highlight panel stats on mobile after demo runs */
-    .panel-header {
-      background: var(--surface-2);
+    .panels {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
       padding: var(--space-3);
+    }
+
+    /* Stack input first, then panels side-by-side */
+    .input-column {
+      order: -1;
+      padding: var(--space-4);
+    }
+
+    .panel-naive {
+      order: 1;
+    }
+
+    .panel-smart {
+      order: 2;
+    }
+
+    /* Create 2-column layout for panels only */
+    @supports (display: grid) {
+      .panels {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .input-column {
+        grid-column: 1 / -1;
+      }
+    }
+
+    /* Simplify panels for mobile */
+    .panel-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-2);
+    }
+
+    .panel-title {
+      font-size: var(--text-xs);
     }
 
     .panel-stats {
       width: 100%;
-      justify-content: space-around;
+      justify-content: space-between;
     }
 
+    /* Hide detailed messages on mobile, just show stats */
+    .chat-window {
+      display: none;
+    }
+
+    .files-loaded {
+      font-size: 0.65rem;
+      padding: var(--space-2);
+    }
+
+    /* Make stats prominent */
     .stat-value {
-      font-size: clamp(1.75rem, 5vw, 2.25rem);
+      font-size: clamp(1.5rem, 5vw, 2rem);
     }
 
-    /* Make token bars more prominent */
-    .token-bar-track {
-      height: 12px;
+    /* Collapse input elements */
+    textarea {
+      min-height: 80px;
+      font-size: var(--text-sm);
     }
 
-    .token-bar-label {
-      font-size: var(--text-base);
-      font-weight: 600;
+    .suggestions {
+      display: none;
     }
 
-    /* Add summary card at bottom after demo completes */
-    .panels::after {
-      content: "💡 Smart mode used 40% fewer tokens";
-      display: block;
-      order: 999;
-      background: var(--accent-dim);
-      border: 2px solid var(--accent);
-      padding: var(--space-4);
-      text-align: center;
-      font-weight: 700;
-      border-radius: var(--radius);
-      margin-top: var(--space-4);
+    .architecture-note {
+      display: none;
     }
   }
 }
