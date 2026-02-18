@@ -26,8 +26,10 @@ suggestBtns.forEach((btn) => {
 // Reset session
 resetBtn.addEventListener("click", async () => {
   await fetch(`${API_BASE}/session/${SESSION_ID}`, { method: "DELETE" });
-  document.getElementById("naive-chat").innerHTML = '<div class="chat-placeholder">Session reset. Send a message to begin.</div>';
-  document.getElementById("smart-chat").innerHTML = '<div class="chat-placeholder">Session reset. Send a message to begin.</div>';
+  document.getElementById("naive-chat").innerHTML =
+    '<div class="chat-placeholder">Session reset. Send a message to begin.</div>';
+  document.getElementById("smart-chat").innerHTML =
+    '<div class="chat-placeholder">Session reset. Send a message to begin.</div>';
   updateStats("naive", { inputTokens: 0, exchangeCount: 0, filesLoaded: [] });
   updateStats("smart", { inputTokens: 0, exchangeCount: 0, filesLoaded: [] });
 });
@@ -56,7 +58,7 @@ async function sendMessage() {
   try {
     const [naiveResult, smartResult] = await Promise.all([
       callAPI("naive", message),
-      callAPI("smart", message)
+      callAPI("smart", message),
     ]);
 
     naiveLoading.remove();
@@ -67,7 +69,6 @@ async function sendMessage() {
 
     updateStats("naive", naiveResult);
     updateStats("smart", smartResult);
-
   } catch (err) {
     naiveLoading.textContent = "Error: " + err.message;
     smartLoading.textContent = "Error: " + err.message;
@@ -80,7 +81,7 @@ async function callAPI(mode, message) {
   const res = await fetch(`${API_BASE}/chat/${mode}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message, sessionId: SESSION_ID })
+    body: JSON.stringify({ message, sessionId: SESSION_ID }),
   });
 
   if (!res.ok) throw new Error(`${mode} API error: ${res.status}`);
@@ -130,3 +131,39 @@ function updateStats(mode, data) {
     filesEl.textContent = "Loaded: " + filesLoaded.join(", ");
   }
 }
+
+// Auto-run all 9 questions button
+const autoRunBtn = document.createElement("button");
+autoRunBtn.textContent = "RUN FULL DEMO (9 QUESTIONS)";
+autoRunBtn.className = "send-btn";
+autoRunBtn.style.background = "#059669";
+autoRunBtn.style.marginBottom = "1rem";
+
+autoRunBtn.addEventListener("click", async () => {
+  const questions = [
+    "What products are running low on stock?",
+    "Which gym accounts have overdue invoices?",
+    "What's our highest margin SKU?",
+    "Status on the Shenzhen factory order?",
+    "What video goes up this week?",
+    "Which wholesale accounts are up for renewal?",
+    "What did the Gymshark DM say?",
+    "How much are we owed in unpaid invoices?",
+    "What products are running low on stock?", // repeat to prove naive forgets
+  ];
+
+  sendBtn.disabled = true;
+  autoRunBtn.disabled = true;
+
+  for (let i = 0; i < questions.length; i++) {
+    messageInput.value = questions[i];
+    await sendMessage();
+    await new Promise((resolve) => setTimeout(resolve, 3000)); // 3 sec delay between questions
+  }
+
+  sendBtn.disabled = false;
+  autoRunBtn.disabled = false;
+});
+
+// Insert auto-run button before the send button
+sendBtn.parentElement.insertBefore(autoRunBtn, sendBtn);
