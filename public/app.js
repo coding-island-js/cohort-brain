@@ -139,6 +139,12 @@ autoRunBtn.className = "send-btn";
 autoRunBtn.style.background = "#059669";
 autoRunBtn.style.marginBottom = "1rem";
 
+// Progress indicator
+const progressDiv = document.createElement("div");
+progressDiv.style.cssText =
+  "text-align: center; font-size: 0.875rem; color: #059669; font-weight: 600; margin-bottom: 0.5rem; display: none;";
+progressDiv.id = "demo-progress";
+
 autoRunBtn.addEventListener("click", async () => {
   const questions = [
     "What products are running low on stock?",
@@ -149,21 +155,29 @@ autoRunBtn.addEventListener("click", async () => {
     "Which wholesale accounts are up for renewal?",
     "What did the Gymshark DM say?",
     "How much are we owed in unpaid invoices?",
-    "What products are running low on stock?", // repeat to prove naive forgets
+    "What products are running low on stock?",
   ];
 
   sendBtn.disabled = true;
   autoRunBtn.disabled = true;
+  progressDiv.style.display = "block";
 
   for (let i = 0; i < questions.length; i++) {
+    progressDiv.textContent = `Running question ${i + 1} of ${questions.length}...`;
     messageInput.value = questions[i];
     await sendMessage();
-    await new Promise((resolve) => setTimeout(resolve, 3000)); // 3 sec delay between questions
+    await new Promise((resolve) => setTimeout(resolve, 3000));
   }
+
+  progressDiv.textContent = "Demo complete! ✓";
+  setTimeout(() => {
+    progressDiv.style.display = "none";
+  }, 2000);
 
   sendBtn.disabled = false;
   autoRunBtn.disabled = false;
 });
 
-// Insert auto-run button before the send button
+// Insert progress indicator and button
+sendBtn.parentElement.insertBefore(progressDiv, sendBtn);
 sendBtn.parentElement.insertBefore(autoRunBtn, sendBtn);
